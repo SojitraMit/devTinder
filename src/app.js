@@ -5,8 +5,12 @@ const User = require("./models/user");
 const { validateSignUpData } = require("./utils/validation");
 const validator = require("validator");
 const bcrypt = require("bcrypt");
+const cookieParser = require("cookie-parser");
+const jwt = require("jsonwebtoken");
+const { userAuth } = require("./middlewares/auth");
 
 app.use(express.json());
+app.use(cookieParser());
 
 app.post("/signup", async (req, res) => {
   try {
@@ -46,12 +50,32 @@ app.post("/login", async (req, res) => {
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (isPasswordValid) {
+      const token = await jwt.sign({ _id: user._id }, "DEV@TINDER4321", {
+        expiresIn: "7d",
+      });
+
+      res.cookie("token", token, {
+        expires: new Date(Date.now() + 8 * 36000000),
+      });
       res.send("Login Successful!!");
     } else {
       throw new Error("Password is incorrect");
     }
   } catch (err) {
     res.send("Error : " + err.message);
+  }
+});
+
+app.post("/sendConnectionRequest", userAuth, async (req, res) => {
+  res.send("connection request sent successfully!");
+});
+
+app.get("/profile", userAuth, async (req, res) => {
+  try {
+    const user = req.user;
+    res.send(user);
+  } catch (err) {
+    res.status(400).send("Error : " + err.message);
   }
 });
 
@@ -98,7 +122,7 @@ app.patch("/user/:userId", async (req, res) => {
   try {
     const ALLOWED_UPDATES = ["photoUrl", "about", "gender", "age", "skills"];
     const isUpadateAllowed = Object.keys(data).every((k) =>
-      ALLOWED_UPDATES.includes(k)
+      ALLOWED_UPDATES.includes(k),
     );
     if (!isUpadateAllowed) {
       throw new Error("Update not allowed");
