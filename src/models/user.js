@@ -37,15 +37,19 @@ const userShema = mongoose.Schema(
     },
     age: {
       type: Number,
+      min: 16,
     },
     gender: {
       type: String,
-      validate(value) {
-        if (!["male", "female", "other"].includes(value)) {
-          throw new Error("gender data is not valid");
-        }
+      enum: {
+        values: ["male", "female", "other"],
+        message: "{VALUE} is not a valid gender type",
       },
-      min: 16,
+      // validate(value) {
+      //   if (!["male", "female", "other"].includes(value)) {
+      //     throw new Error("gender data is not valid");
+      //   }
+      // },
     },
     photoUrl: {
       type: String,
@@ -69,6 +73,8 @@ const userShema = mongoose.Schema(
     timestamps: true,
   },
 );
+
+userShema.index({ firstName: 1, lastName: 1 });
 
 userShema.methods.getJWT = async function () {
   const user = this;

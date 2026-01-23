@@ -25,6 +25,10 @@ profileRouter.patch("/profile/edit", userAuth, async (req, res) => {
     }
 
     Object.keys(req.body).forEach((key) => (loggedInUser[key] = req.body[key]));
+    // await User.findByIdAndUpdate(userId, data, {
+    //   returnDocument: "before",
+    //   runValidators: true,
+    // });
 
     await loggedInUser.save();
     res.json({
