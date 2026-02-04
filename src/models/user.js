@@ -37,12 +37,14 @@ const userShema = mongoose.Schema(
     },
     age: {
       type: Number,
+      required: true,
       min: 16,
+      max: 100,
     },
     gender: {
       type: String,
       enum: {
-        values: ["male", "female", "other"],
+        values: ["Male", "Female", "Other"],
         message: "{VALUE} is not a valid gender type",
       },
       // validate(value) {
@@ -54,7 +56,7 @@ const userShema = mongoose.Schema(
     photoUrl: {
       type: String,
       default:
-        "https://icon-library.com/images/laptop-user-icon/laptop-user-icon-16.jpg",
+        "https://i.pinimg.com/736x/3e/49/bc/3e49bca5dfe7083928a95d69bec59c1d.jpg",
       validate(value) {
         if (!validator.isURL(value)) {
           throw new Error("photoUrl  is not valid ");
