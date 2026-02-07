@@ -63,6 +63,24 @@ const userShema = mongoose.Schema(
         }
       },
     },
+    gitHubUrl: {
+      type: String,
+      default: "https://github.com/",
+      validate(value) {
+        if (value && !validator.isURL(value)) {
+          throw new Error("gitHubUrl  is not valid ");
+        }
+      },
+    },
+    linkedInUrl: {
+      type: String,
+      default: "https://www.linkedin.com/",
+      validate(value) {
+        if (value && !validator.isURL(value)) {
+          throw new Error("linkedInUrl  is not valid ");
+        }
+      },
+    },
     about: {
       type: String,
       default: "Hi, I am using DevTinder.",
@@ -80,7 +98,7 @@ userShema.index({ firstName: 1, lastName: 1 });
 
 userShema.methods.getJWT = async function () {
   const user = this;
-  const token = await jwt.sign({ _id: user._id }, "DEV@TINDER4321", {
+  const token = await jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
     expiresIn: "7d",
   });
 

@@ -60,7 +60,7 @@ authRouter.post("/login", async (req, res) => {
 
     const user = await User.findOne({ emailId: emailId });
     if (!user) {
-      throw new Error("EmailId is not present in DB");
+      throw new Error("EmailId is new to us. Please sign up first.");
     }
 
     const isPasswordValid = await user.validatePassword(password);
