@@ -53,6 +53,18 @@ const userShema = mongoose.Schema(
       //   }
       // },
     },
+    isPremium: {
+      type: Boolean,
+      default: false,
+    },
+    membershipType: {
+      type: String,
+      default: "None",
+      enum: {
+        values: ["None", "Silver", "Gold"],
+        message: "{VALUE} is not a valid membership type",
+      },
+    },
     photoUrl: {
       type: String,
       default:
