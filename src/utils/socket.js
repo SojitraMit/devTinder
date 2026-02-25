@@ -13,7 +13,7 @@ const generateRoomId = (userId1, userId2) => {
 
 const initilizeSocket = (server) => {
   const io = socket(server, {
-    cors: { origin: "http://localhost:5173" },
+    cors: { origin: "https://dev-tinder-web-mocha.vercel.app/" },
   });
 
   io.on("connection", (socket) => {
