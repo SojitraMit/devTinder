@@ -7,6 +7,8 @@ const app = express();
 const http = require("http");
 require("dotenv").config();
 
+app.set("trust proxy", 1);
+
 app.use(
   cors({
     origin: "https://dev-tinder-web-mocha.vercel.app",
