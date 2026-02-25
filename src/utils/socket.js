@@ -19,7 +19,7 @@ const initilizeSocket = (server) => {
   io.on("connection", (socket) => {
     socket.on("joinChat", ({ firstName, userId, targetUserId }) => {
       const roomId = generateRoomId(userId, targetUserId);
-      console.log(firstName + "-" + roomId);
+
       socket.join(roomId);
     });
 
@@ -28,7 +28,7 @@ const initilizeSocket = (server) => {
       async ({ firstName, userId, targetUserId, text }) => {
         try {
           const roomId = generateRoomId(userId, targetUserId);
-          console.log(firstName + "-" + text);
+
           let chat = await Chat.findOne({
             participates: { $all: [userId, targetUserId] },
           });

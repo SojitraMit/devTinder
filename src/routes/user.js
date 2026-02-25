@@ -94,6 +94,7 @@ userRouter.post("/user/info/:id", userAuth, async (req, res) => {
   try {
     const { id } = req.params;
     const user = await User.findById(id);
+    console.log(user);
     res.json({ data: user });
   } catch (err) {
     res.status(400).send("Error: " + err.message);

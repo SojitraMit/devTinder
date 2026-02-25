@@ -13,7 +13,7 @@ authRouter.post("/signup", async (req, res) => {
     const { firstName, lastName, emailId, password, age, gender } = req.body;
 
     const passwordHash = await bcrypt.hash(password, 10);
-    console.log(passwordHash);
+
     let photoUrl = "";
     if (age < 25 && gender === "Male") {
       photoUrl =

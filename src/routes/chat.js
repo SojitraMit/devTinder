@@ -20,7 +20,7 @@ chatRouter.get("/chat/:targetUserId", userAuth, async (req, res) => {
         { fromUserId: targetUserId, toUserId: userId, status: "accepted" },
       ],
     });
-    console.log(connection);
+
     if (!connection) {
       throw new Error("you do not have connection with him/her");
     }
