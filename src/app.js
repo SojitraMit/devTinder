@@ -9,7 +9,7 @@ require("dotenv").config();
 
 app.use(
   cors({
-    origin: "https://dev-tinder-web-mocha.vercel.app/",
+    origin: "https://dev-tinder-web-mocha.vercel.app",
     credentials: true,
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
