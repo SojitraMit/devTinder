@@ -43,6 +43,9 @@ authRouter.post("/signup", async (req, res) => {
     const savedUser = await user.save();
     const token = await savedUser.getJWT();
     res.cookie("token", token, {
+      httpOnly: true,
+      secure: true, // REQUIRED for HTTPS
+      sameSite: "none", // REQUIRED for cross-domain (Vercel ↔ Render)
       expires: new Date(Date.now() + 10 * 36000000),
     });
     res.json({ message: "User adding successfully !!", data: savedUser });
@@ -68,6 +71,9 @@ authRouter.post("/login", async (req, res) => {
     if (isPasswordValid) {
       const token = await user.getJWT();
       res.cookie("token", token, {
+        httpOnly: true,
+        secure: true, // REQUIRED for HTTPS
+        sameSite: "none", // REQUIRED for cross-domain (Vercel ↔ Render)
         expires: new Date(Date.now() + 10 * 36000000),
       });
 
@@ -82,6 +88,9 @@ authRouter.post("/login", async (req, res) => {
 
 authRouter.post("/logout", async (req, res) => {
   res.cookie("token", null, {
+    httpOnly: true,
+    secure: true, // REQUIRED for HTTPS
+    sameSite: "none", // REQUIRED for cross-domain (Vercel ↔ Render)
     expires: new Date(Date.now()),
   });
   res.send("Logout successfull !!");
