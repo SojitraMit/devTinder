@@ -5,7 +5,7 @@ const User = require("../models/user");
 const { userAuth } = require("../middlewares/auth");
 
 const USER_SAFE_DATA =
-  "firstName lastName photoUrl age gender about skills isPremium membershipType ";
+  "firstName lastName photoUrl age gender about skills isPremium membershipType linkedInUrl gitHubUrl";
 
 userRouter.get("/user/requests/received", userAuth, async (req, res) => {
   try {
