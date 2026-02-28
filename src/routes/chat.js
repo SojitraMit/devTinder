@@ -26,11 +26,15 @@ chatRouter.get("/chat/:targetUserId", userAuth, async (req, res) => {
     }
 
     if (!chat) {
-      chat = new Chat({
+      chat = await Chat.create({
         participates: [userId, targetUserId],
         message: [],
       });
-      await chat.save();
+
+      // 🔥 RE-POPULATE AFTER CREATING
+      chat = await Chat.findById(chat._id)
+        .populate("message.senderId", "firstName lastName")
+        .populate("participates", "firstName lastName photoUrl");
     }
     res.json(chat);
   } catch (err) {
